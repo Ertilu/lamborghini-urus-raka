@@ -1,3 +1,6 @@
+Source: https://codesandbox.io/p/sandbox/building-dynamic-envmaps-forked-tm4c2s?file=%2Fpackage.json%3A10%2C19
+
+
 [![Downloads](https://img.shields.io/npm/dt/create-r3f-app.svg?style=flat&colorA=000000&colorB=000000)](https://www.npmjs.com/package/create-r3f-app) [![Discord Shield](https://img.shields.io/discord/740090768164651008?style=flat&colorA=000000&colorB=000000&label=discord&logo=discord&logoColor=ffffff)](https://discord.gg/ZZjjNvJ)
 
 # :japanese_castle: React-Three-Next starter

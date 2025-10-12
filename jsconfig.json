@@ -1,6 +1,8 @@
+/* eslint-disable */
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["app/*", "src/*"]
     }
