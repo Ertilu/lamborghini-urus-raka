@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "next lint --fix --dir app",
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm install --legacy-peer-deps && npm run build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "install": "npm install --legacy-peer-deps",
