@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "next lint --fix --dir app",
     "dev": "next dev",
-    "build": " npm run build",
+    "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start"
   },
