@@ -17,7 +17,6 @@ const nextConfig = {
   //   styledComponents: true,
   // },
   reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
-  output: 'standalone',
   images: {},
   webpack(config, { isServer }) {
     if (!isServer) {
