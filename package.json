@@ -12,12 +12,9 @@
   "scripts": {
     "lint": "next lint --fix --dir app",
     "dev": "next dev",
-    "build": "npm install --legacy-peer-deps && npm run build",
+    "build": " npm run build",
     "analyze": "ANALYZE=true next build",
-    "start": "next start",
-    "install": "npm install --legacy-peer-deps",
-    "preinstall": "npm install --legacy-peer-deps || true",
-    "postinstall": "npm install --legacy-peer-deps || true"
+    "start": "next start"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
