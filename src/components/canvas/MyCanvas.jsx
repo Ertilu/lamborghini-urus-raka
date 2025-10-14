@@ -5,7 +5,6 @@ import { Lamborghini } from './Lamborghini'
 import { Suspense } from 'react'
 
 export default function MyCanvas() {
-  console.log('Effects', Effects)
   return (
     <Canvas
       gl={{ logarithmicDepthBuffer: true, antialias: false }}

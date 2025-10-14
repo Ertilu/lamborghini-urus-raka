@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import { useMemo } from 'react'
-import { applyProps } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
+import { applyProps, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 
 /*
@@ -12,7 +12,8 @@ Title: Lamborghini Urus
 export function Lamborghini(props) {
   const { scene, nodes, materials } = useGLTF('/lambo.glb')
   console.log('nodes', nodes)
-  console.log('materials', materials)
+  const wheels = useRef([])
+
   useMemo(() => {
     // ⬇⬇⬇ All this is probably better fixed in Blender ...
     Object.values(nodes).forEach((node) => {
@@ -47,6 +48,21 @@ export function Lamborghini(props) {
       clearcoatRoughness: 0,
       clearcoat: 1,
     })
+
+    wheels.current = [
+      scene.getObjectByName('RR'),
+      scene.getObjectByName('RL'),
+      scene.getObjectByName('FR'),
+      scene.getObjectByName('FL'),
+    ]
   }, [nodes, materials])
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    wheels.current.forEach((wheel) => {
+      if (wheel) wheel.rotation.x = time * Math.PI * 2
+    })
+  })
+
   return <primitive object={scene} {...props} />
 }
