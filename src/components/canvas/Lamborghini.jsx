@@ -60,7 +60,7 @@ export function Lamborghini(props) {
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
     wheels.current.forEach((wheel) => {
-      if (wheel) wheel.rotation.x = time * Math.PI * 2
+      if (wheel) wheel.rotation.x = time * Math.PI * 10
     })
   })
 

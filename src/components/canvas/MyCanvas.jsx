@@ -1,10 +1,30 @@
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, Lightformer, ContactShadows, OrbitControls, useProgress, Html } from '@react-three/drei'
 import { Effects } from './Effects'
 import { Lamborghini } from './Lamborghini'
-import { Suspense } from 'react'
+import { Suspense, useRef } from 'react'
 
 export default function MyCanvas() {
+  function GroundGrid() {
+    const gridRef = useRef()
+    useFrame((state) => {
+      const time = -state.clock.getElapsedTime()
+      gridRef.current.position.z = time * Math.PI * 10
+    })
+
+    return (
+      <gridHelper
+        ref={gridRef}
+        args={[9999, 490, 0xffffff, 0xffffff]}
+        position={[0, -2, 0]}
+        renderOrder={1}
+        material-transparent
+        material-opacity={0.2}
+        material-depthWrite={false}
+      />
+    )
+  }
+
   return (
     <Canvas
       gl={{ logarithmicDepthBuffer: true, antialias: false }}
@@ -13,8 +33,9 @@ export default function MyCanvas() {
     >
       <color attach='background' args={['#15151a']} />
 
+      <GroundGrid />
       <Suspense fallback={<Loader />}>
-        <Lamborghini rotation={[0, Math.PI / 1.5, 0]} scale={0.015} />
+        <Lamborghini rotation={[0, 0, 0]} scale={0.015} />
       </Suspense>
       <hemisphereLight intensity={0.5} />
       <ContactShadows
@@ -26,44 +47,38 @@ export default function MyCanvas() {
         opacity={1}
         far={20}
       />
-      <mesh scale={4} position={[3, -1.161, -1.5]} rotation={[-Math.PI / 2, 0, Math.PI / 2.5]}>
-        <ringGeometry args={[0.9, 1, 4, 1]} />
-        <meshStandardMaterial color='white' roughness={0.75} />
-      </mesh>
-      <mesh scale={4} position={[-3, -1.161, -1]} rotation={[-Math.PI / 2, 0, Math.PI / 2.5]}>
-        <ringGeometry args={[0.9, 1, 3, 1]} />
-        <meshStandardMaterial color='white' roughness={0.75} />
-      </mesh>
       {/* We're building a cube-mapped environment declaratively.
           Anything you put in here will be filmed (once) by a cubemap-camera
           and applied to the scenes environment, and optionally background. */}
-      <Environment resolution={512}>
-        {/* Ceiling */}
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, -9]} scale={[10, 1, 1]} />
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, -6]} scale={[10, 1, 1]} />
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, -3]} scale={[10, 1, 1]} />
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 0]} scale={[10, 1, 1]} />
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 3]} scale={[10, 1, 1]} />
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 6]} scale={[10, 1, 1]} />
-        <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 9]} scale={[10, 1, 1]} />
-        {/* Sides */}
-        <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-50, 2, 0]} scale={[100, 2, 1]} />
-        <Lightformer intensity={2} rotation-y={-Math.PI / 2} position={[50, 2, 0]} scale={[100, 2, 1]} />
-        {/* Key */}
-        <Lightformer
-          form='ring'
-          color='red'
-          intensity={10}
-          scale={2}
-          position={[10, 5, 10]}
-          onUpdate={(self) => self.lookAt(0, 0, 0)}
-        />
-      </Environment>
+      <Environment preset='dawn' background />
       <Effects />
       <OrbitControls minPolarAngle={Math.PI / 2.2} maxPolarAngle={Math.PI / 2.2} />
     </Canvas>
   )
 }
+
+//  ;<Environment resolution={512}>
+//    {/* Ceiling */}
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, -9]} scale={[10, 1, 1]} />
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, -6]} scale={[10, 1, 1]} />
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, -3]} scale={[10, 1, 1]} />
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 0]} scale={[10, 1, 1]} />
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 3]} scale={[10, 1, 1]} />
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 6]} scale={[10, 1, 1]} />
+//    <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 4, 9]} scale={[10, 1, 1]} />
+//    {/* Sides */}
+//    <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-50, 2, 0]} scale={[100, 2, 1]} />
+//    <Lightformer intensity={2} rotation-y={-Math.PI / 2} position={[50, 2, 0]} scale={[100, 2, 1]} />
+//    {/* Key */}
+//    <Lightformer
+//      form='ring'
+//      color='red'
+//      intensity={10}
+//      scale={2}
+//      position={[10, 5, 10]}
+//      onUpdate={(self) => self.lookAt(0, 0, 0)}
+//    />
+//  </Environment>
 
 function Loader() {
   const { progress } = useProgress()
